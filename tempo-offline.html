@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="pt"><meta charset="utf-8"><meta name="color-scheme" content="light only"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#f5f3ec"><title>Tempo · Metrónomo clássico</title>
+<style>
+:root{color-scheme:only light;--ink:#252c29;--muted:#73796f;--red:#c94b37;--paper:#f5f3ec;--line:#dddcd2}
+*{box-sizing:border-box}html{background:var(--paper);color:var(--ink);min-height:100%}body{margin:0;background:var(--paper);font:14px system-ui,-apple-system,"Segoe UI",sans-serif;padding:env(safe-area-inset-top) 0 0}
+button,input,select{font:inherit;color:inherit}button,select{min-height:44px;border:1px solid var(--line);border-radius:9px;background:#faf9f5}button{padding:10px 14px;cursor:pointer}button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--red);outline-offset:2px}header{height:48px;max-width:500px;margin:auto;display:flex;justify-content:flex-end;align-items:center;padding:2px 18px}header button{border:0;background:transparent;font-size:12px;color:#636a5e}
+.workspace{height:calc(100svh - 48px - env(safe-area-inset-top));min-height:480px;max-width:440px;margin:auto;padding:0 20px calc(12px + env(safe-area-inset-bottom));display:grid;grid-template-rows:minmax(160px,1fr) auto auto;gap:10px}.instrument{min-height:0;display:grid;grid-template-rows:minmax(0,1fr) 18px}.stage{min-height:0;display:flex;justify-content:center;align-items:center;background:radial-gradient(ellipse at 50% 90%,#dfddd0,transparent 65%)}.stage svg{display:block;height:100%;width:auto;max-width:100%;overflow:visible}.pendulum{transform-origin:150px 332px}.running .pendulum{animation:swing var(--period) ease-in-out infinite alternate}@keyframes swing{from{transform:rotate(-19deg)}to{transform:rotate(19deg)}}.beat-row{display:flex;justify-content:center;align-items:center;gap:13px}.beat{width:7px;height:7px;border-radius:50%;background:#d7d7cc}.beat.on{background:var(--red);box-shadow:0 0 0 4px #c94b3715}
+.controls{min-width:0}.label{display:flex;justify-content:space-between;align-items:center;font-size:10px;font-weight:600;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px}.controls>.label{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}select{width:100%;padding:10px;font-size:16px;min-width:0}#tempo{text-align:center;font-size:17px;font-weight:600;background:transparent;border-color:#d4d4c7}.tempo-readout{display:flex;align-items:center;justify-content:space-between;margin:8px 0 0;gap:8px}.tempo-readout>div:first-child{display:flex;align-items:baseline;gap:7px}.tempo-name{display:none}.bpm{font:54px Georgia,serif;width:116px;padding:0;border:0;background:transparent;line-height:1;color:var(--ink)}.bpm::-webkit-inner-spin-button{display:none}.unit{font-size:11px;color:var(--muted);letter-spacing:1px}.step{width:44px;padding:0;border-radius:50%;font-size:24px}.step+ .step{margin-left:5px}input[type=range]{display:block;width:100%;height:28px;margin:2px 0;accent-color:var(--red);cursor:pointer;background:transparent}.range-labels{display:flex;justify-content:space-between;color:var(--muted);font-size:10px}.transport{display:flex;gap:10px;padding-top:2px}.play{background:var(--ink);color:#fff;border-color:var(--ink);flex:1;font-weight:600;font-size:16px;min-height:50px}.tap{font-size:11px;letter-spacing:.8px;min-width:106px}
+dialog{width:430px;max-width:calc(100% - 24px);max-height:calc(100svh - 32px);overflow:auto;padding:22px;border:1px solid var(--line);border-radius:18px;background:var(--paper);color:var(--ink);overscroll-behavior:contain}dialog::backdrop{background:#18251d70}dialog h2{font:23px Georgia,serif;margin:0}dialog p{font-size:12px;line-height:1.6}.dialog-header{display:flex;justify-content:space-between;align-items:center;gap:12px}.dialog-header button{background:transparent;border:0;font-size:18px}.section{border-top:1px solid var(--line);padding-top:18px;margin-top:18px}.two{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:12px}.note-row{display:flex;gap:5px}.note-row select{flex:1;padding:8px 4px}.dot{font-size:25px;min-width:44px;padding:0}.dot.selected,.sound.selected{background:#e6e6d8;border-color:#a8ac9b}.conversion{padding:11px;margin-top:14px;background:#eaece3;border-radius:8px;font-size:11px;line-height:1.6;color:#626956}.accent{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:12px;font-size:12px}.accent input{width:22px;height:22px;accent-color:var(--red)}.sounds{display:flex;gap:7px}.sound{flex:1;padding:10px 3px;font-size:12px}.sound small{display:block;font-size:18px;margin-bottom:4px}.volume{display:flex;gap:12px;align-items:center;margin-top:12px;font-size:12px;color:var(--muted)}.volume input{flex:1;min-width:0}.hint{font-size:10px!important;color:var(--muted)}.download{width:100%;margin-top:12px;background:#eae7dc}.close-dialog{width:100%}dialog a{display:block;background:var(--ink);color:white;text-decoration:none;text-align:center;padding:14px;border-radius:8px;margin:12px 0}#install{width:100%;margin:12px 0;background:var(--red);color:white}#offline-status{color:#626956}
+@media(min-width:700px){header{max-width:500px}.workspace{max-width:460px;height:calc(100svh - 48px);max-height:960px}.stage svg{max-height:600px}}
+@media(max-height:620px){header{height:44px}.workspace{height:calc(100svh - 44px);gap:5px;min-height:420px}.bpm{font-size:42px}.tempo-readout{margin-top:4px}.play{min-height:44px}}
+@media(prefers-reduced-motion:reduce){.running .pendulum{animation:none}#sliding-weight{transition:none!important}}
+.stage{padding:0;border:0;border-radius:12px;min-height:0;width:100%;touch-action:manipulation;-webkit-tap-highlight-color:transparent;cursor:pointer}.stage:focus-visible{outline:2px solid var(--red);outline-offset:3px}.transport{align-items:center;justify-content:space-between}.play-hint{font-size:11px;color:var(--muted);line-height:1.4;max-width:180px}.tap{min-height:44px}
+.workspace{height:calc(100svh - env(safe-area-inset-top));padding-top:8px}
+.transport{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.play-hint{grid-column:1 / -1;text-align:center;max-width:none;font-size:11px}
+#settings-open{min-height:44px;font-size:12px;background:transparent}
+@media(min-width:700px){.workspace{height:calc(100svh - env(safe-area-inset-top))}}
+@media(max-height:620px){.workspace{height:calc(100svh - env(safe-area-inset-top))}}
+</style>
+
+
+<main class="workspace"><section class="instrument"><button type="button" class="stage" id="stage" aria-label="Iniciar metrónomo" aria-pressed="false" aria-describedby="play-hint" title="Toque para iniciar ou parar">
+<svg viewBox="0 0 300 460" role="img" aria-label="Metrónomo mecânico vermelho com pêndulo animado"><defs><linearGradient id="red" x2="1" y2="0"><stop stop-color="#91372a"/><stop offset=".18" stop-color="#d75c43"/><stop offset=".7" stop-color="#c14934"/><stop offset="1" stop-color="#953628"/></linearGradient><linearGradient id="face" x2="1" y2=".2"><stop stop-color="#dbdccf"/><stop offset=".5" stop-color="#f2f0e3"/><stop offset="1" stop-color="#c0c4b8"/></linearGradient><linearGradient id="metal"><stop stop-color="#70776e"/><stop offset=".5" stop-color="#e6e7dc"/><stop offset="1" stop-color="#747c72"/></linearGradient><filter id="shadow"><feDropShadow dx="0" dy="10" stdDeviation="8" flood-opacity=".15"/></filter></defs><ellipse cx="150" cy="441" rx="100" ry="9" fill="#484b3820"/><g filter="url(#shadow)"><path d="M130 13 Q150 2 170 13 Q196 30 203 66 L262 410 Q265 433 240 438 L60 438 Q35 433 38 410 L97 66 Q104 30 130 13Z" fill="url(#red)"/><path d="M132 28 Q150 18 168 28 L190 66 231 283 Q150 311 69 283 L110 66Z" fill="url(#face)" stroke="#656f62" stroke-width="3"/><path d="M68 300 Q150 326 232 300 L249 411 Q250 423 231 425 L69 425 Q50 423 51 411Z" fill="#303b36"/><g stroke="#566050" stroke-width="1" id="ticks"></g><path d="M150 38 V285" stroke="#939b89" stroke-width="2"/><text id="scale-limit" x="150" y="261" text-anchor="middle" font-size="7" fill="#596350"></text><path d="M87 267H213V287H87Z" fill="#c94b37"/><text x="150" y="281" fill="#fff1dd" font-size="12" font-family="serif" text-anchor="middle" letter-spacing="3">TEMPO</text><g stroke="#17251f" stroke-width="7" stroke-linecap="round"><path d="M87 355v39M103 355v43M119 355v46M181 355v46M197 355v43M213 355v39"/></g><rect x="65" y="324" width="170" height="17" rx="5" fill="#1e2923"/><circle cx="150" cy="332" r="5" fill="#d6d8cc"/><g class="pendulum"><path d="M150 71V404" stroke="url(#metal)" stroke-width="7"/><g id="sliding-weight" style="transition:transform 180ms ease-out"><path d="M135 142H165L162 176H138Z" fill="url(#metal)" stroke="#7b8176"/></g><circle cx="150" cy="395" r="22" fill="url(#metal)" stroke="#a3aa9d" stroke-width="3"/><circle cx="150" cy="395" r="16" fill="none" stroke="#c4c8ba"/></g><circle cx="67" cy="433" r="8" fill="#a43e2c"/><circle cx="233" cy="433" r="8" fill="#a43e2c"/></g></svg></button><div class="beat-row" id="beats"></div></section>
+<section class="controls"><label class="label" for="tempo">Indicação de andamento </label><select id="tempo"></select><div class="tempo-readout"><div><div class="tempo-name" id="mood"></div><input type="number" class="bpm" id="bpm" min="20" max="300" value="144" aria-label="BPM"> <span class="unit">BPM</span></div><div><button class="step" id="minus" aria-label="Diminuir BPM">−</button> <button class="step" id="plus" aria-label="Aumentar BPM">+</button></div></div><input type="range" id="speed" aria-label="Ajustar andamento"><div class="range-labels"><span id="low"></span><span id="rangeName">Intervalo de referência</span><span id="high"></span></div>
+</section><div class="transport"><span id="play-hint" class="play-hint" aria-live="polite">Toque no metrónomo para iniciar</span><button class="tap" id="tap" title="Toque várias vezes para definir o andamento">TAP TEMPO</button><button id="settings-open" aria-label="Abrir definições" aria-haspopup="dialog">⚙ Definições</button></div></main>
+<dialog id="settings-dialog" aria-labelledby="settings-title"><div class="dialog-header"><h2 id="settings-title">Definições</h2><button id="settings-close" aria-label="Fechar definições">✕</button></div><div class="section two"><div><label class="label" for="meter">Compasso</label><select id="meter"><option>2/4</option><option>3/4</option><option selected>4/4</option><option>2/2</option><option>3/2</option><option>3/8</option><option>6/8</option><option>9/8</option><option>12/8</option><option>5/4</option><option>7/8</option></select></div><div><label class="label" for="note">Figura = BPM</label><div class="note-row"><select id="note"><option value="4">𝅝 Semibreve</option><option value="2">𝅗𝅥 Mínima</option><option value="1" selected>♩ Semínima</option><option value="0.5">♪ Colcheia</option><option value="0.25">𝅘𝅥𝅯 Semicolcheia</option></select><button id="dot" class="dot" aria-label="Adicionar ponto de aumentação" aria-pressed="false">·</button></div></div></div>
+<div class="conversion" id="conversion" aria-live="polite"></div><div class="accent"><label for="group">Clique por</label><select id="group" style="width:auto;padding:6px;font-size:11px"><option value="pulse">Pulsação</option><option value="division">Unidade do compasso</option></select></div><div class="accent"><label for="accent">Acentuar o início do compasso</label><input type="checkbox" id="accent" checked></div>
+<div class="section"><div class="label">Som do clique </div><div class="sounds"><button class="sound selected" data-sound="wood"><small>▥</small>Madeira</button><button class="sound" data-sound="metal"><small>♧</small>Metal</button><button class="sound" data-sound="digital"><small>∿</small>Digital</button></div><label class="volume">Volume <input type="range" id="volume" min="0" max="1" step="0.01" value="0.65" aria-label="Volume"></label></div><p class="hint">Os intervalos são orientativos: a época, a obra e a interpretação também contam.</p><button id="offline" class="download">↓ Descarregar / instalar offline</button></dialog><dialog id="offline-dialog"><h2>Leve o Tempo consigo.</h2><p id="offline-status">Descarregue uma cópia completa para usar sem internet. Os três sons estão incluídos.</p><button id="install" hidden>Instalar no Android</button><p id="install-help">Para ter um ícone no ecrã inicial do Android, abra a versão publicada no Chrome e escolha ⋮ → Adicionar ao ecrã principal → Instalar. A primeira abertura precisa de internet.</p><a href="tempo-offline.html" download="tempo-offline.html">↓ Descarregar versão offline (.html)</a><p>O ficheiro HTML abre num navegador compatível; não é um APK. A abertura de ficheiros locais depende do navegador do Android.</p><button class="close-dialog" id="close-offline">Fechar</button></dialog><script>const $=id=>document.getElementById(id);
+// Intervalos orientativos; variam entre fontes, épocas e interpretações.
+const tempi=[
+ ['Larghissimo',20,24,'Extremamente lento'],
+ ['Grave',25,45,'Lento e solene'],
+ ['Largo',40,60,'Largo, amplo'],
+ ['Lento',45,60,'Lentamente'],
+ ['Larghetto',60,66,'Um pouco mais vivo'],
+ ['Adagio',66,76,'Devagar, com expressão'],
+ ['Adagietto',72,76,'Um pouco mais vivo que Adagio'],
+ ['Andante',76,108,'Ao passo'],
+ ['Andantino',80,108,'Ao passo, ligeiramente mais vivo'],
+ ['Andante moderato',92,112,'Ao passo, com moderação'],
+ ['Moderato',108,120,'Com moderação'],
+ ['Allegretto',112,120,'Moderadamente vivo e ligeiro'],
+ ['Allegro moderato',116,120,'Vivo, com moderação'],
+ ['Allegro',120,168,'Vivo e animado'],
+ ['Vivace',168,176,'Vivo e enérgico'],
+ ['Vivacissimo',172,176,'Muito vivo e enérgico'],
+ ['Allegrissimo / Allegro vivace',172,176,'Muito rápido e vivo'],
+ ['Presto',168,200,'Muito rápido'],
+ ['Prestissimo',200,208,'O mais rápido possível']
+];
+const tapOption=new Option('Tap Tempo','tap');tapOption.disabled=true;tapOption.hidden=true;$('tempo').add(tapOption);
+const manualOption=new Option('144 BPM','manual');manualOption.disabled=true;manualOption.hidden=true;$('tempo').add(manualOption);
+tempi.forEach(([name,min,max],i)=>$('tempo').add(new Option(`${name} · ${min}–${max} BPM`,i)));$('tempo').value=tempi.findIndex(t=>t[0]==='Allegro');
+let bpm=144,dotted=false,sound='wood',ctx,running=false,timer,nextTime=0,phase=0,drawTimers=[],taps=[];
+function config(){const [n,d]=$('meter').value.split('/').map(Number);const unit=4/d;const figure=Number($('note').value)*(dotted?1.5:1);const pulse=$('group').value==='division'?unit:figure;return {n,d,unit,figure,pulse,bar:n*unit};}
+const scaleMarks=[40,42,44,46,48,50,52,54,56,58,60,63,66,69,72,76,80,84,88,92,96,100,104,108,112,116,120,126,132,138,144,152,160,168,176,184,192,200,208];
+function scaleY(value){
+ const v=Math.max(40,Math.min(208,value));
+ let i=scaleMarks.findIndex(mark=>mark>=v);
+ const index=i===0?0:(i-1)+(v-scaleMarks[i-1])/(scaleMarks[i]-scaleMarks[i-1]);
+ return 64+index/(scaleMarks.length-1)*186;
+}
+function weightOffset(value){return scaleY(value)-142;}
+
+function render(){$('sliding-weight').setAttribute('transform',`translate(0 ${weightOffset(bpm)})`);$('scale-limit').textContent=bpm<40?'Menos de 40 BPM':bpm>208?'Mais de 208 BPM':'';const isTap=$('tempo').value==='tap';const isManual=$('tempo').value==='manual';manualOption.textContent=`${bpm} BPM`;const t=isTap?['Tap Tempo',20,300,'Tap Tempo']:isManual?['Manual',20,300,'Tempo manual']:tempi[$('tempo').value];$('bpm').value=bpm;$('speed').min=t[1];$('speed').max=t[2];$('speed').value=bpm;$('low').textContent=t[1]+' BPM';$('high').textContent=t[2]+' BPM';$('mood').textContent=t[3];$('rangeName').textContent=isManual?'Tempo manual':isTap?'Tap Tempo':bpm<t[1]||bpm>t[2]?'Tempo personalizado':'Intervalo de referência';const c=config();const names={'4':'semibreve','2':'mínima','1':'semínima','0.5':'colcheia','0.25':'semicolcheia'};const count=c.bar/c.pulse;$('conversion').textContent=`${names[$('note').value]}${dotted?' com ponto':''} = ${bpm} BPM · ♩ = ${+(bpm*c.figure).toFixed(1)} BPM. ${$('group').value==='division'?`${+(bpm*c.figure/c.unit).toFixed(1)} cliques/min`:`${bpm} cliques/min`} · ${+count.toFixed(2)} cliques por compasso.`;$('beats').replaceChildren(...Array.from({length:c.n},()=>{let el=document.createElement('span');el.className='beat';return el}));$('stage').style.setProperty('--period',60/(bpm*c.figure/c.pulse)+'s');}
+function resetClock(){phase=0;if(running){clearInterval(timer);drawTimers.forEach(clearTimeout);drawTimers=[];nextTime=ctx.currentTime+.06;timer=setInterval(schedule,25);schedule();}}
+function setBpm(v){bpm=Math.max(20,Math.min(300,Math.round(Number(v)||144)));render();}
+// Reutiliza a mesma excitação: cada clique de madeira tem a mesma energia.
+let woodBuffer;
+function woodNoise(){
+ if(!woodBuffer){
+  woodBuffer=ctx.createBuffer(1,Math.ceil(ctx.sampleRate*.065),ctx.sampleRate);
+  const data=woodBuffer.getChannelData(0);
+  let seed=1729;
+  for(let i=0;i<data.length;i++){
+   seed=(Math.imul(seed,1664525)+1013904223)>>>0;
+   data[i]=seed/2147483648-1;
+  }
+ }
+ return woodBuffer;
+}
+function click(time,strong){
+ const gain=ctx.createGain();gain.connect(ctx.destination);
+ const vol=Number($('volume').value)*(strong?1:.65);
+ gain.gain.setValueAtTime(.0001,time);
+ gain.gain.exponentialRampToValueAtTime(Math.max(.0001,vol*.45),time+.002);
+ gain.gain.exponentialRampToValueAtTime(.0001,time+(sound==='metal'?.16:.055));
+ if(sound==='wood'){
+  const src=ctx.createBufferSource();src.buffer=woodNoise();
+  const filter=ctx.createBiquadFilter();filter.type='bandpass';
+  filter.frequency.value=strong?1500:1000;filter.Q.value=5;
+  src.connect(filter);filter.connect(gain);src.start(time);src.stop(time+.07);
+ }else{
+  const osc=ctx.createOscillator();osc.type=sound==='metal'?'triangle':'sine';
+  osc.frequency.setValueAtTime(sound==='metal'?(strong?2400:1800):(strong?1400:950),time);
+  osc.connect(gain);osc.start(time);osc.stop(time+.18);
+ }
+}
+function schedule(){const c=config();const interval=60/bpm*c.pulse/c.figure;while(nextTime<ctx.currentTime+.12){const p=phase;const isStart=p<.00001;click(nextTime,isStart&&$('accent').checked);const delay=Math.max(0,(nextTime-ctx.currentTime)*1000);drawTimers.push(setTimeout(()=>{if(!running)return;[...$('beats').children].forEach((e,i)=>e.classList.toggle('on',i===Math.min(c.n-1,Math.floor(p/c.unit))));},delay));if(drawTimers.length>100)drawTimers=drawTimers.slice(-30);nextTime+=interval;phase=(phase+c.pulse)%c.bar;if(phase<1e-8)phase=0;}}
+async function toggle(){if(running){running=false;clearInterval(timer);drawTimers.forEach(clearTimeout);drawTimers=[];$('stage').setAttribute('aria-pressed','false');$('stage').setAttribute('aria-label','Iniciar metrónomo');$('play-hint').textContent='Toque no metrónomo para iniciar';$('stage').classList.remove('running');[...$('beats').children].forEach(e=>e.classList.remove('on'));return;}ctx??=new (window.AudioContext||window.webkitAudioContext)();await ctx.resume();running=true;$('stage').setAttribute('aria-pressed','true');$('stage').setAttribute('aria-label','Parar metrónomo');$('play-hint').textContent='Toque no metrónomo para parar';$('stage').classList.add('running');resetClock();}
+$('tempo').onchange=()=>{const t=tempi[$('tempo').value];if(!t)return;taps=[];setBpm((t[1]+t[2])/2)};function manualBpm(value){$('tempo').value='manual';taps=[];setBpm(value);}$('bpm').oninput=e=>{const value=Number(e.target.value);if(e.target.value!==''&&Number.isInteger(value)&&value>=20&&value<=300)manualBpm(value);};$('bpm').onchange=e=>manualBpm(e.target.value);$('speed').oninput=e=>setBpm(e.target.value);$('minus').onclick=()=>setBpm(bpm-1);$('plus').onclick=()=>setBpm(bpm+1);
+['meter','note','group'].forEach(id=>$(id).onchange=()=>{render();resetClock()});$('dot').onclick=()=>{dotted=!dotted;$('dot').classList.toggle('selected',dotted);$('dot').setAttribute('aria-pressed',dotted);render();resetClock()};document.querySelectorAll('.sound').forEach(btn=>btn.onclick=()=>{sound=btn.dataset.sound;document.querySelectorAll('.sound').forEach(b=>{b.classList.toggle('selected',b===btn);b.setAttribute('aria-pressed',b===btn)})});$('stage').onclick=toggle;
+$('tap').onclick=()=>{$('tempo').value='tap';render();let now=performance.now();if(taps.length&&now-taps.at(-1)>2500)taps=[];taps.push(now);taps=taps.slice(-6);if(taps.length>1)setBpm(60000/((taps.at(-1)-taps[0])/(taps.length-1)))};
+document.addEventListener('keydown',e=>{if(e.code==='Space'&&!['INPUT','SELECT','BUTTON','TEXTAREA'].includes(e.target.tagName)){e.preventDefault();toggle()}});
+document.addEventListener('visibilitychange',()=>{if(document.hidden&&running)toggle()});
+scaleMarks.forEach((value,i)=>{
+ const y=scaleY(value);
+ const line=document.createElementNS('http://www.w3.org/2000/svg','path');
+ line.setAttribute('d',`M143 ${y}H157`);$('ticks').append(line);
+ const text=document.createElementNS('http://www.w3.org/2000/svg','text');
+ const left=i%2===0;text.setAttribute('x',left?139:161);text.setAttribute('text-anchor',left?'end':'start');
+ text.setAttribute('y',y+2.4);text.setAttribute('font-size',6.7);text.setAttribute('fill','#596350');text.setAttribute('stroke','none');text.textContent=value;$('ticks').append(text);
+});render();
+</script><script>const settingsDialog=document.getElementById('settings-dialog');
+document.getElementById('settings-open').onclick=()=>settingsDialog.showModal();
+document.getElementById('settings-close').onclick=()=>settingsDialog.close();
+let installPrompt;
+const offlineDialog=document.getElementById('offline-dialog');
+document.getElementById('offline').onclick=()=>{settingsDialog.close();offlineDialog.showModal();};
+document.getElementById('close-offline').onclick=()=>offlineDialog.close();
+window.addEventListener('beforeinstallprompt',event=>{
+ event.preventDefault();installPrompt=event;document.getElementById('install').hidden=false;
+});
+document.getElementById('install').onclick=async()=>{
+ if(!installPrompt)return;
+ await installPrompt.prompt();await installPrompt.userChoice;installPrompt=null;document.getElementById('install').hidden=true;
+};
+window.addEventListener('appinstalled',()=>{document.getElementById('install').hidden=true;document.getElementById('install-help').textContent='O Tempo está instalado. Pode abri-lo pelo ícone no ecrã inicial.'});
+if('serviceWorker' in navigator&&['https:','http:'].includes(location.protocol)){
+ navigator.serviceWorker.register('./sw.js').then(()=>navigator.serviceWorker.ready).then(()=>{
+  document.getElementById('offline-status').textContent='Pronto para usar offline neste dispositivo. Os três sons estão incluídos.';
+ }).catch(()=>{document.getElementById('offline-status').textContent='Não foi possível preparar a app offline. Pode descarregar a cópia HTML abaixo e tentar novamente quando tiver ligação.'});
+}
+</script></html>

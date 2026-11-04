@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+<title id="title">Tempo — metronome</title><desc id="desc">Cream mechanical metronome with orange-red frame and swinging pendulum on charcoal background.</desc>
+<rect width="512" height="512" rx="112" fill="#202126"/>
+<path d="M183 104 Q190 78 218 78 H294 Q322 78 329 104 L420 398 Q428 428 395 428 H117 Q84 428 92 398 Z" fill="#FF4A2C"/>
+<path d="M210 122 Q215 108 230 108 H282 Q297 108 302 122 L379 382 H133 Z" fill="#202126"/>
+<path d="M240 138 Q243 129 252 129 H260 Q269 129 272 138 L327 382 H185 Z" fill="#FFF0D3"/>
+<path d="M256 162 V354" stroke="#25252A" stroke-width="7" stroke-linecap="round"/>
+<path d="M239 183 H273 M236 217 H276 M233 251 H279 M229 285 H283 M225 319 H287" stroke="#25252A" stroke-width="6" stroke-linecap="round"/>
+<path d="M120 383 H392 L399 409 H113 Z" fill="#F24428"/>
+<path d="M256 390 L338 199" stroke="#FFF0D3" stroke-width="16" stroke-linecap="round"/>
+<circle cx="338" cy="199" r="23" fill="#FFF0D3"/>
+<circle cx="256" cy="390" r="32" fill="#FFF0D3" stroke="#202126" stroke-width="9"/>
+<circle cx="256" cy="390" r="11" fill="#202126"/>
+</svg>

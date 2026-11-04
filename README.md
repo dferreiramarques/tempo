@@ -88,3 +88,12 @@ Ao publicar alterações:
 - O primeiro toque no metrónomo permite ao navegador ativar o áudio.
 - A precisão depende do navegador e do dispositivo. A instalação e a reprodução devem ser confirmadas no Android de destino.
 - Os andamentos e a animação são referências de estudo; o desenho não simula a física de um mecanismo real.
+
+
+## Ícones e atualizações instaladas
+
+Os PNG 192 e 512 derivam de tempo-icon.svg; o maskable tem fundo opaco e símbolo reduzido à área segura. Os URLs usam ?v=20261104: altere a versão no manifesto, HTML e ASSETS ao substituir ícones. Preserve o URL do manifesto, id, start_url e scope.
+
+A cache v11 substitui a v10 apenas depois de guardar todos os recursos. Há verificações ao abrir, voltar ao primeiro plano e recuperar ligação. A versão nova fica disponível na abertura seguinte, sem recarregar o metrónomo em uso. Continue a aumentar CACHE quando alterar os recursos offline.
+
+O Chrome/WebAPK e o launcher gerem separadamente o ícone instalado no Android. Abra com internet, feche e reabra; a mudança pode demorar ou pedir confirmação. Se persistir o ícone antigo, remover e reinstalar é uma alternativa manual, não um requisito. Valide num dispositivo real. Referência: https://developer.chrome.com/blog/improvements-to-web-app-updates.

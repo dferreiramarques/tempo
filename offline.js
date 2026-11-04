@@ -14,7 +14,13 @@ document.getElementById('install').onclick=async()=>{
 };
 window.addEventListener('appinstalled',()=>{document.getElementById('install').hidden=true;document.getElementById('install-help').textContent='O Tempo está instalado. Pode abri-lo pelo ícone no ecrã inicial.'});
 if('serviceWorker' in navigator&&['https:','http:'].includes(location.protocol)){
- navigator.serviceWorker.register('./sw.js').then(()=>navigator.serviceWorker.ready).then(()=>{
+ navigator.serviceWorker.register('./sw.js',{updateViaCache:'none'}).then(registration=>{
+  const check=()=>{if(!document.hidden&&navigator.onLine)registration.update().catch(()=>{});};
+  window.addEventListener('online',check);
+  document.addEventListener('visibilitychange',check);
+  check();
+  return navigator.serviceWorker.ready;
+ }).then(()=>{
   document.getElementById('offline-status').textContent='Pronto para usar offline neste dispositivo. Os três sons estão incluídos.';
  }).catch(()=>{document.getElementById('offline-status').textContent='Não foi possível preparar a app offline. Pode descarregar a cópia HTML abaixo e tentar novamente quando tiver ligação.'});
 }
